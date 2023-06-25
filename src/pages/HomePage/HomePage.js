@@ -1,35 +1,28 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+
 import { userProfileActions } from '../../store/userProfile/userProfileSlice';
+import { useGetUserProfilesQuery } from '../../store/api/apiSlice';
 
 function HomePage() {
-  const dispatch = useDispatch();
+  const { data, error, isError, isLoading } = useGetUserProfilesQuery('seed=abc&results=10');
 
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch(userProfileActions.setUserProfiles([{ id: 2, name: 'bella', age: 19 }]));
-    }, 3000);
-  }, [dispatch]);
-
-  const userProfiles = useSelector((state) => state.userProfile.userProfiles).map(
-    (someUserProfile) => {
-      return (
-        <div key={someUserProfile.id}>
-          <div>id: {someUserProfile.id}</div>
-          <div>name: {someUserProfile.name}</div>
-          <div>age: {someUserProfile.age}</div>
-        </div>
-      );
-    }
-  );
-
-  const onClickHandler = () => {};
+  // const userProfiles = useSelector((state) => state.userProfile.userProfiles).map(
+  //   (someUserProfile) => {
+  //     return (
+  //       <div key={someUserProfile.id}>
+  //         <div>id: {someUserProfile.id}</div>
+  //         <div>name: {someUserProfile.name}</div>
+  //         <div>age: {someUserProfile.age}</div>
+  //       </div>
+  //     );
+  //   }
+  // );
 
   return (
     <div>
       <h1>HomePage</h1>
-      <button onClick={onClickHandler}></button>
-      <p>{userProfiles}</p>
+      <p>{JSON.stringify(data)}</p>
     </div>
   );
 }
